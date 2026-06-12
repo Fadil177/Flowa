@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+backend/data/*.json
+!backend/data/seed.json
+*.log
+.DS_Store
+Thumbs.db

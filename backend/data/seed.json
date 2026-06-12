@@ -1,0 +1,206 @@
+{
+  "profile": {
+    "name": "Fadil",
+    "tone": "sanft",
+    "mainGoal": "Ich moechte im Alltag mehr sprechen.",
+    "situations": ["Smalltalk", "Telefonieren", "Fremde Menschen"],
+    "anxiety": 6,
+    "reminders": "weekly",
+    "onboarded": false
+  },
+  "challenges": [
+    {
+      "id": "hello-neighbor",
+      "title": "Sage bewusst Hallo",
+      "path": "Alltag",
+      "level": "Einstieg",
+      "difficulty": 1,
+      "duration": "2 Minuten",
+      "prompt": "Gruesse heute eine Person bewusst, auch wenn der Satz holprig wird.",
+      "successHint": "Ein Versuch zaehlt. Dein Ziel ist Mut, nicht Perfektion.",
+      "tags": ["Smalltalk", "Fremde Menschen"]
+    },
+    {
+      "id": "thank-cashier",
+      "title": "Bedanke dich an der Kasse",
+      "path": "Alltag",
+      "level": "Einstieg",
+      "difficulty": 1,
+      "duration": "1 Minute",
+      "prompt": "Sage beim Bezahlen bewusst Danke oder einen kurzen freundlichen Satz.",
+      "successHint": "Ein kurzer Satz ist genug. Du darfst dir Zeit nehmen.",
+      "tags": ["Einkaufen", "Fremde Menschen"]
+    },
+    {
+      "id": "voice-note",
+      "title": "Sprich eine Sprachnachricht ein",
+      "path": "Selbstvertrauen",
+      "level": "Einstieg",
+      "difficulty": 2,
+      "duration": "5 Minuten",
+      "prompt": "Nimm eine kurze Sprachnachricht auf und hoere sie einmal freundlich an.",
+      "successHint": "Du musst nichts korrigieren. Es reicht, deine Stimme da sein zu lassen.",
+      "tags": ["Stimme", "Selbstakzeptanz"]
+    },
+    {
+      "id": "ask-time",
+      "title": "Frage nach der Uhrzeit",
+      "path": "Fremde Menschen",
+      "level": "Einstieg",
+      "difficulty": 2,
+      "duration": "3 Minuten",
+      "prompt": "Frage eine Person nach der Uhrzeit oder nach einer kleinen Auskunft.",
+      "successHint": "Du darfst stottern und trotzdem fragen.",
+      "tags": ["Fremde Menschen", "Fragen"]
+    },
+    {
+      "id": "order-cafe",
+      "title": "Bestelle in einem Cafe",
+      "path": "Alltag",
+      "level": "Mittel",
+      "difficulty": 3,
+      "duration": "10 Minuten",
+      "prompt": "Bestelle ein Getraenk oder etwas Kleines und bleibe freundlich bei dir.",
+      "successHint": "Ein holpriger Satz ist immer noch ein gesprochener Satz.",
+      "tags": ["Einkaufen", "Fremde Menschen"]
+    },
+    {
+      "id": "phone-opening",
+      "title": "Fuehre ein kurzes Telefonat",
+      "path": "Telefonieren",
+      "level": "Mittel",
+      "difficulty": 4,
+      "duration": "10 Minuten",
+      "prompt": "Rufe kurz bei einem Geschaeft an und frage nach Oeffnungszeiten.",
+      "successHint": "Du kannst langsam machen. Pausen sind erlaubt.",
+      "tags": ["Telefonieren", "Fragen"]
+    },
+    {
+      "id": "say-name",
+      "title": "Sage bewusst deinen Namen",
+      "path": "Selbstvertrauen",
+      "level": "Mittel",
+      "difficulty": 4,
+      "duration": "5 Minuten",
+      "prompt": "Sage deinen Namen in einer Situation, in der du sonst ausweichen wuerdest.",
+      "successHint": "Dein Name darf Raum bekommen, auch wenn es einen Moment dauert.",
+      "tags": ["Name", "Selbstakzeptanz"]
+    },
+    {
+      "id": "meeting-question",
+      "title": "Stelle eine kurze Frage",
+      "path": "Beruf und Schule",
+      "level": "Fortgeschritten",
+      "difficulty": 5,
+      "duration": "15 Minuten",
+      "prompt": "Stelle in einer Gruppe, einem Kurs oder Meeting eine kurze Frage.",
+      "successHint": "Du bringst dich ein. Das ist der Fortschritt.",
+      "tags": ["Gruppe", "Beruf", "Schule"]
+    },
+    {
+      "id": "open-stutter",
+      "title": "Sprich dein Stottern offen an",
+      "path": "Selbstakzeptanz",
+      "level": "Fortgeschritten",
+      "difficulty": 5,
+      "duration": "10 Minuten",
+      "prompt": "Sage in einer passenden Situation: Ich stottere manchmal, ich nehme mir kurz Zeit.",
+      "successHint": "Offenheit kann Druck aus der Situation nehmen.",
+      "tags": ["Selbstakzeptanz", "Gruppe"]
+    }
+  ],
+  "breathingExercises": [
+    {
+      "id": "sixty-second-anchor",
+      "title": "60-Sekunden-Atemanker",
+      "duration": "1 Minute",
+      "steps": [
+        "Fuesse bewusst auf den Boden stellen.",
+        "Schultern locker lassen.",
+        "Vier Sekunden einatmen.",
+        "Sechs Sekunden ausatmen.",
+        "Beim Ausatmen innerlich sagen: Ich darf mir Zeit nehmen.",
+        "Fuenf Atemzuege wiederholen."
+      ]
+    },
+    {
+      "id": "soft-reset",
+      "title": "Sanfter Reset",
+      "duration": "3 Minuten",
+      "steps": [
+        "Blick kurz im Raum orientieren.",
+        "Eine Hand auf den Brustkorb legen.",
+        "Drei laengere Ausatemzuege nehmen.",
+        "Einen hilfreichen Satz leise wiederholen."
+      ]
+    },
+    {
+      "id": "after-hard-moment",
+      "title": "Nach einem schwierigen Moment",
+      "duration": "4 Minuten",
+      "steps": [
+        "Benennen: Das war gerade schwer.",
+        "Koerper entspannen, Kiefer lockern.",
+        "Eine Sache notieren, die trotzdem mutig war.",
+        "Den Moment nicht zum Urteil ueber den ganzen Tag machen."
+      ]
+    }
+  ],
+  "affirmations": [
+    "Ich darf stottern und trotzdem sprechen.",
+    "Mein Ziel ist Mut, nicht Perfektion.",
+    "Ich bin mehr als mein Stottern.",
+    "Ich kann langsam sprechen und Pausen machen.",
+    "Ein schwieriger Moment definiert nicht meinen ganzen Tag.",
+    "Mein Wert haengt nicht von fluessiger Sprache ab."
+  ],
+  "articles": [
+    {
+      "id": "courage-not-fluency",
+      "title": "Warum Mut wichtiger ist als fluessiges Sprechen",
+      "category": "Mindset",
+      "minutes": 4,
+      "body": "Bei Flowa bedeutet Fortschritt nicht, jeden Satz glatt zu sagen. Fortschritt bedeutet, trotz Anspannung handlungsfaehig zu bleiben. Wenn du eine Situation versuchst, trainierst du dein Nervensystem, dass Sprechen auch mit Stottern moeglich ist."
+    },
+    {
+      "id": "avoidance-cycle",
+      "title": "Wie Vermeidung die Angst groesser macht",
+      "category": "Angst",
+      "minutes": 5,
+      "body": "Vermeidung fuehlt sich kurzfristig erleichternd an. Langfristig lernt dein Kopf aber: Diese Situation ist gefaehrlich. Kleine, machbare Schritte helfen, diesen Kreislauf langsam zu lockern."
+    },
+    {
+      "id": "kind-reflection",
+      "title": "Selbstfreundlich reflektieren",
+      "category": "Reflexion",
+      "minutes": 3,
+      "body": "Eine Reflexion ist kein Gerichtsurteil. Frage dich: Was habe ich versucht? Was habe ich gelernt? Was kann beim naechsten Mal kleiner oder hilfreicher sein?"
+    },
+    {
+      "id": "talking-on-phone",
+      "title": "Telefonieren mit Stottern",
+      "category": "Alltag",
+      "minutes": 4,
+      "body": "Beim Telefonieren fehlen Blickkontakt und Gesten. Es ist okay, langsamer zu starten, Pausen zu machen und dir vorher einen ersten Satz zurechtzulegen."
+    },
+    {
+      "id": "open-communication",
+      "title": "Offen mit Stottern umgehen",
+      "category": "Selbstakzeptanz",
+      "minutes": 4,
+      "body": "Manchmal kann ein kurzer offener Satz Druck reduzieren. Offenheit ist freiwillig. Du entscheidest, wann und mit wem sie sich sicher anfuehlt."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Was ist ein hilfreiches Ziel bei einer Challenge?",
+      "answer": "Eine machbare mutige Handlung versuchen, nicht perfekt sprechen."
+    },
+    {
+      "question": "Was kann helfen, wenn die Anspannung steigt?",
+      "answer": "Langsamer ausatmen, Pausen erlauben und einen selbstfreundlichen Satz erinnern."
+    }
+  ],
+  "runs": [],
+  "journal": []
+}
