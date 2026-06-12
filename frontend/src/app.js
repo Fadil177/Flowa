@@ -1,5 +1,5 @@
 const API_URL = localStorage.getItem("flowa_api_url") || "http://localhost:4000/api";
-const STATIC_DB_KEY = "flowa_static_db";
+const STATIC_DB_KEY = "flowa_static_db_v2";
 
 const state = {
   view: "dashboard",
