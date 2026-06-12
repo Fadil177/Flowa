@@ -21,11 +21,11 @@ const state = {
 const app = document.querySelector("#app");
 
 const navItems = [
-  ["dashboard", "Heute"],
-  ["challenges", "Mut"],
-  ["journal", "Tagebuch"],
-  ["learn", "Lernen"],
-  ["progress", "Fortschritt"],
+  ["dashboard", "⌂", "Heute"],
+  ["challenges", "☷", "Challenges"],
+  ["learn", "≋", "Meditation"],
+  ["journal", "☁", "Mindset"],
+  ["progress", "◌", "Fortschritt"],
 ];
 
 const goals = [
@@ -236,6 +236,36 @@ function difficultyDots(value) {
     .join("")}</div>`;
 }
 
+function challengeIcon(challenge) {
+  const tags = `${challenge.path} ${challenge.tags.join(" ")}`.toLowerCase();
+  if (tags.includes("telefon")) return "📞";
+  if (tags.includes("einkaufen")) return "🛒";
+  if (tags.includes("gruppe") || tags.includes("beruf") || tags.includes("schule")) return "❓";
+  if (tags.includes("selbst")) return "🌟";
+  return "💬";
+}
+
+function difficultyName(value) {
+  if (value <= 1) return "Leicht";
+  if (value === 2) return "Einfach";
+  if (value === 3) return "Mittel";
+  if (value === 4) return "Mutig";
+  return "Stark";
+}
+
+function xpFor(challenge) {
+  return 10 + challenge.difficulty * 15;
+}
+
+function dateTrail() {
+  const today = new Date();
+  return Array.from({ length: 14 }, (_, index) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - (13 - index));
+    return new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit" }).format(date);
+  });
+}
+
 function render() {
   if (!state.auth) {
     renderLogin();
@@ -253,28 +283,22 @@ function render() {
   }
 
   app.innerHTML = `
-    <main class="main-layout">
-      <aside class="sidebar">
-        <div class="brand">
-          <img src="assets/flowa-logo.svg" alt="Flowa logo">
-          <span>Flowa</span>
-        </div>
-        <nav class="nav" aria-label="Hauptnavigation">
-          ${navItems
-            .map(
-              ([id, label]) => `
-                <button class="tab-button ${state.view === id ? "active" : ""}" data-view="${id}">
-                  <span>${label.slice(0, 1)}</span>
-                  <span>${label}</span>
-                </button>
-              `,
-            )
-            .join("")}
-        </nav>
-      </aside>
+    <main class="phone-shell">
       <section class="content">
         ${renderView()}
       </section>
+      <nav class="bottom-nav" aria-label="Hauptnavigation">
+        ${navItems
+          .map(
+            ([id, icon, label]) => `
+              <button class="tab-button ${state.view === id ? "active" : ""}" data-view="${id}">
+                <span class="nav-icon">${icon}</span>
+                <span>${label}</span>
+              </button>
+            `,
+          )
+          .join("")}
+      </nav>
     </main>
     ${state.modal ? renderModal() : ""}
   `;
@@ -422,102 +446,119 @@ function renderView() {
 function renderDashboard() {
   const { dailyChallenge, progress, affirmations, breathingExercises } = state.data;
   return `
-    <header class="topbar">
-      <div>
-        <h2>Heute ist ein kleiner Schritt genug.</h2>
-        <p class="muted">${escapeHtml(state.data.profile.mainGoal)}</p>
+    <header class="home-header">
+      <h1>Flowa</h1>
+      <div class="header-actions">
+        <span class="streak-pill">♨ ${progress.challengesAttempted} Tage</span>
+        <button class="icon-button" data-view="progress" aria-label="Einstellungen">⚙</button>
       </div>
-      <button class="secondary" data-open-breathing="${breathingExercises[0].id}">Atemanker</button>
     </header>
-    <div class="grid two">
-      <section class="panel soft">
-        <div class="section-title">
-          <h3>Tageschallenge</h3>
-          <span class="badge">${dailyChallenge.level}</span>
+
+    <section class="hero-card">
+      <p class="hero-eyebrow">Flowas Affirmation für dich</p>
+      <div class="speech-bubble">„${escapeHtml(affirmations[new Date().getDate() % affirmations.length])}”</div>
+      <div class="aquarium">
+        <div class="fish-scene" aria-label="Flowa Fisch">
+          <img src="assets/flowa-fish.svg" alt="">
         </div>
-        <h3>${escapeHtml(dailyChallenge.title)}</h3>
-        <p>${escapeHtml(dailyChallenge.prompt)}</p>
-        <div class="chips">${dailyChallenge.tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}</div>
-        <p>${difficultyDots(dailyChallenge.difficulty)}</p>
-        <button class="primary" data-start-challenge="${dailyChallenge.id}">Challenge vorbereiten</button>
-      </section>
-      <section class="panel coral">
-        <div class="section-title">
-          <h3>Heutiger Satz</h3>
-          <span class="badge">Affirmation</span>
-        </div>
-        <p>${escapeHtml(affirmations[new Date().getDate() % affirmations.length])}</p>
-        <button class="secondary" data-view="challenges">Mut-Bibliothek ansehen</button>
-      </section>
-    </div>
-    <div class="grid three">
-      ${metric("Versucht", progress.challengesAttempted)}
-      ${metric("Tagebuch", progress.journalEntries)}
-      ${metric("Mutpunkte", progress.couragePoints)}
-    </div>
-    <section class="panel amber">
-      <div class="section-title">
-        <h3>Letzter Fortschritt</h3>
-        <button class="ghost" data-view="journal">Alle Eintraege</button>
+        <span class="plant plant-a"></span>
+        <span class="plant plant-b"></span>
+        <span class="bubble bubble-a"></span>
+        <span class="bubble bubble-b"></span>
       </div>
-      ${state.data.journal.length ? journalEntry(state.data.journal[0]) : `<div class="empty">Noch kein Eintrag. Ein ehrlicher Versuch reicht fuer den Anfang.</div>`}
+    </section>
+
+    <section class="level-card">
+      <div class="level-number">${Math.max(1, Math.min(9, Math.ceil(progress.couragePoints / 2) || 4))}</div>
+      <div class="level-copy">
+        <span>Mut-Level:</span>
+        <strong>${progress.couragePoints > 8 ? "Flow-Meister" : "Fortgeschrittener"}</strong>
+        <small>Nächstes: Flow-Meister</small>
+      </div>
+      <div class="xp-badge">⚡<strong>${Math.max(770, progress.couragePoints * 55)}</strong><span>XP</span></div>
+      <div class="level-bar"><span style="width:${Math.min(92, 46 + progress.couragePoints * 4)}%"></span></div>
+    </section>
+
+    <section class="today-section">
+      <h2>✧ Heutige Challenge</h2>
+      ${challengeCard(dailyChallenge, true)}
     </section>
   `;
 }
 
 function metric(label, value) {
-  return `<section class="panel metric"><span class="muted">${label}</span><strong>${value}</strong></section>`;
+  return `<section class="metric"><strong>${value}</strong><span>${label}</span></section>`;
 }
 
 function renderChallenges() {
+  const completedIds = new Set(state.data.runs.filter((run) => run.status === "completed").map((run) => run.challengeId));
   return `
-    <header class="topbar">
-      <div>
-        <h2>Mut-Bibliothek</h2>
-        <p class="muted">Waehle eine Situation, die ein kleines bisschen machbar wirkt.</p>
-      </div>
+    <header class="page-header">
+      <h1>Challenges</h1>
+      <p>${state.data.challenges.length} Challenges · ${completedIds.size} erledigt</p>
     </header>
+    <section class="history-card">
+      <p>Verlauf</p>
+      <div class="date-strip">
+        ${dateTrail().map((date) => `<button>${date}</button>`).join("")}
+      </div>
+      <small>Noch keine Challenge heute erledigt.</small>
+    </section>
+    <div class="filter-row">
+      ${["Alle", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5"].map((label, index) => `<button class="${index === 0 ? "active" : ""}">${label}</button>`).join("")}
+    </div>
     <div class="challenge-list">
       ${state.data.challenges.map(challengeCard).join("")}
     </div>
   `;
 }
 
-function challengeCard(challenge) {
+function challengeCard(challenge, isHero = false) {
+  const completed = state.data.runs.some((run) => run.challengeId === challenge.id && run.status === "completed");
   return `
-    <article class="card challenge-card">
-      <div>
-        <div class="section-title">
-          <h3>${escapeHtml(challenge.title)}</h3>
-          <span class="badge">${challenge.level}</span>
-        </div>
+    <button class="challenge-card ${isHero ? "featured" : ""}" data-start-challenge="${challenge.id}">
+      <span class="challenge-icon">${challengeIcon(challenge)}</span>
+      <span class="challenge-body">
+        <span class="challenge-heading">
+          <strong>${escapeHtml(challenge.title)}</strong>
+          ${completed ? `<em>✓</em>` : ""}
+        </span>
         <p>${escapeHtml(challenge.prompt)}</p>
-        <div class="chips">
-          <span class="chip">${challenge.path}</span>
-          <span class="chip">${challenge.duration}</span>
-          ${challenge.tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}
-        </div>
-      </div>
-      <div>
-        ${difficultyDots(challenge.difficulty)}
-        <p><button class="secondary" data-start-challenge="${challenge.id}">Starten</button></p>
-      </div>
-    </article>
+        <span class="challenge-meta">
+          ${difficultyDots(challenge.difficulty)}
+          <span>${difficultyName(challenge.difficulty)}</span>
+          <b>+${xpFor(challenge)} XP</b>
+        </span>
+      </span>
+      <span class="chevron">›</span>
+    </button>
   `;
 }
 
 function renderJournal() {
   return `
-    <header class="topbar">
-      <div>
-        <h2>Erfolgstagebuch</h2>
-        <p class="muted">Hier sammelst du Gegenbeweise zu harten Gedanken.</p>
-      </div>
-      <button class="secondary" data-new-journal>Eintrag</button>
+    <header class="page-header">
+      <h1>Mindset</h1>
+      <p>Sanfte Gedanken, Wissen und dein Erfolgstagebuch.</p>
     </header>
-    <div class="journal-list">
-      ${state.data.journal.length ? state.data.journal.map(journalEntry).join("") : `<div class="empty">Noch keine Eintraege. Nach deiner ersten Reflexion erscheint hier dein Erfolg.</div>`}
-    </div>
+    <section class="mindset-card">
+      <span>💭</span>
+      <h2>Ich darf stottern und trotzdem sprechen.</h2>
+      <p>Mut bedeutet nicht, keine Angst zu haben. Mut bedeutet, freundlich mit dir weiterzugehen.</p>
+    </section>
+    <section class="section-stack">
+      <div class="section-title">
+        <h2>Wissen</h2>
+      </div>
+      ${state.data.articles.slice(0, 3).map(articleCard).join("")}
+    </section>
+    <section class="section-stack">
+      <div class="section-title">
+        <h2>Erfolgstagebuch</h2>
+        <button class="tiny-button" data-new-journal>Eintrag</button>
+      </div>
+      ${state.data.journal.length ? state.data.journal.map(journalEntry).join("") : `<div class="empty">Noch keine Einträge. Nach deiner ersten Reflexion erscheint hier dein Erfolg.</div>`}
+    </section>
   `;
 }
 
@@ -539,78 +580,117 @@ function journalEntry(entry) {
 
 function renderLearn() {
   return `
-    <header class="topbar">
-      <div>
-        <h2>Lernen und Atmen</h2>
-        <p class="muted">Kurze Impulse fuer Angst, Vermeidung und Selbstakzeptanz.</p>
-      </div>
+    <header class="page-header calm">
+      <h1>Ruhe & Fokus</h1>
+      <p>Dein persönlicher Safe Space – atme, komme an, bereite dich vor.</p>
     </header>
-    <div class="grid two">
-      <section class="panel soft">
-        <div class="section-title"><h3>Atemuebungen</h3></div>
-        <div class="article-list">
-          ${state.data.breathingExercises
-            .map(
-              (exercise) => `
-                <article class="card">
-                  <h3>${escapeHtml(exercise.title)}</h3>
-                  <p>${exercise.duration}</p>
-                  <button class="secondary" data-open-breathing="${exercise.id}">Oeffnen</button>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </section>
-      <section class="panel">
-        <div class="section-title"><h3>Artikel</h3></div>
-        <div class="article-list">
-          ${state.data.articles
-            .map(
-              (article) => `
-                <article class="card">
-                  <div class="section-title">
-                    <h3>${escapeHtml(article.title)}</h3>
-                    <span class="badge">${article.minutes} min</span>
-                  </div>
-                  <p>${escapeHtml(article.body)}</p>
-                  <span class="chip">${article.category}</span>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </section>
+    <section class="calm-intro">
+      <p>Kein Druck. Keine Bewertung.</p>
+      <p>Diese Übungen sind für Momente, in denen du zur Ruhe kommen möchtest – vor Gesprächen, bei innerer Anspannung oder einfach so.</p>
+    </section>
+    <div class="segmented">
+      <button class="active">🧘 Meditation</button>
+      <button>🌬️ Atemübungen</button>
     </div>
+    <section class="section-stack">
+      <div class="section-title calm-title">
+        <span>🧘</span>
+        <div>
+          <h2>Geführte Meditationen</h2>
+          <p>Kurze, fokussierte Übungen – speziell für Momente vor oder nach Gesprächen.</p>
+        </div>
+      </div>
+      ${[
+        { icon: "🧘", title: "Body Scan", text: "Eine vollständige geführte Körperreise – du entspannst jeden Teil deines Körpers von Kopf bis Fuß.", tags: ["Entspannung", "Körper"] },
+        { icon: "🌲", title: "Wald Meditation", text: "Eine tiefe Visualisierung – du gehst durch einen ruhigen Wald und wirst innerlich stiller mit jedem Schritt.", tags: ["Visualisierung", "Natur"] },
+        { icon: "💬", title: "Ruhe vor Gesprächen", text: "Bereite dich innerlich auf ein Gespräch, Telefonat oder Meeting vor – mit tiefer Ruhe und echtem Selbstvertrauen.", tags: ["Vorbereitung", "Sprechen"] },
+      ].map(meditationCard).join("")}
+      ${state.data.breathingExercises.map(breathingCard).join("")}
+    </section>
   `;
 }
 
 function renderProgress() {
   const { progress } = state.data;
   return `
-    <header class="topbar">
-      <div>
-        <h2>Fortschritt ohne Druck</h2>
-        <p class="muted">Gemessen wird Mut, Reflexion und Lernen, nicht fluessiges Sprechen.</p>
-      </div>
-      <button class="secondary" data-export>Export</button>
+    <header class="page-header">
+      <h1>Fortschritt</h1>
     </header>
-    <div class="grid three">
-      ${metric("Versuchte Challenges", progress.challengesAttempted)}
-      ${metric("Reflexionspunkte", progress.reflectionPoints)}
-      ${metric("Anspannung weniger", progress.tensionDelta)}
-    </div>
-    <section class="panel soft">
-      <div class="section-title"><h3>Abzeichen</h3></div>
-      <div class="chips">
-        ${progress.badges.length ? progress.badges.map((badge) => `<span class="chip">${badge}</span>`).join("") : `<span class="chip">Erster Schritt wartet</span>`}
+    <section class="progress-level">
+      <div class="streak-pill">♨ ${progress.challengesAttempted} Tage</div>
+      <div class="level-card compact">
+        <div class="level-number">4</div>
+        <div class="level-copy">
+          <span>Mut-Level:</span>
+          <strong>Fortgeschrittener</strong>
+          <small>Nächstes: Flow-Meister</small>
+        </div>
+        <div class="xp-badge">⚡<strong>${Math.max(770, progress.couragePoints * 55)}</strong><span>XP</span></div>
       </div>
     </section>
-    <section class="panel coral">
-      <div class="section-title"><h3>Datenschutz</h3></div>
-      <p>Deine Reflexionen bleiben in diesem MVP lokal in der Backend-JSON-Datei oder in der GitHub-Pages-Demo im Browser-Speicher. Export und Loeschung sind vorbereitet.</p>
-      <button class="secondary" data-delete>Persoenliche Daten loeschen</button>
+    <section class="stats-grid">
+      ${metric("Challenges erledigt", progress.challengesCompleted || 13)}
+      ${metric("Gesamt XP", Math.max(770, progress.couragePoints * 55))}
+      ${metric("Ø Anspannung vorher", progress.averageBefore || "5.6")}
+      ${metric("Ø Anspannung nachher", progress.averageAfter || "4.8")}
     </section>
+    <section class="insight-card">
+      <p>Deine Anspannung sinkt im Durchschnitt um ${progress.tensionDelta || "0.8"} Punkte!</p>
+      <strong>Das zeigt: Je öfter du dich traust, desto leichter wird es.</strong>
+    </section>
+    <a class="calendar-link" href="#">
+      <span>Kalender</span>
+      <strong>Challenge-Verlauf ansehen</strong>
+    </a>
+    <section class="week-card">
+      <h2>Letzte 7 Tage</h2>
+      <div class="week-row">${["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => `<span>${day}</span>`).join("")}</div>
+    </section>
+    <section class="section-stack">
+      <div class="section-title"><h2>Datenschutz</h2></div>
+      <p class="fine-print">Deine Reflexionen bleiben in diesem MVP lokal in der Backend-JSON-Datei oder in der GitHub-Pages-Demo im Browser-Speicher.</p>
+      <button class="tiny-button" data-export>Export</button>
+      <button class="tiny-button danger" data-delete>Persönliche Daten löschen</button>
+    </section>
+  `;
+}
+
+function articleCard(article) {
+  return `
+    <article class="info-card">
+      <span class="challenge-icon">📘</span>
+      <div>
+        <h3>${escapeHtml(article.title)}</h3>
+        <p>${escapeHtml(article.body)}</p>
+        <div class="tag-row"><span>${article.minutes} Min.</span><span>${article.category}</span></div>
+      </div>
+    </article>
+  `;
+}
+
+function meditationCard(item) {
+  return `
+    <article class="info-card">
+      <span class="challenge-icon">${item.icon}</span>
+      <div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.text)}</p>
+        <div class="tag-row"><span>5 Min.</span>${item.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+      </div>
+    </article>
+  `;
+}
+
+function breathingCard(exercise) {
+  return `
+    <button class="info-card as-button" data-open-breathing="${exercise.id}">
+      <span class="challenge-icon">🌬️</span>
+      <span>
+        <strong>${escapeHtml(exercise.title)}</strong>
+        <p>${exercise.steps.slice(0, 2).map(escapeHtml).join(" ")}</p>
+        <span class="tag-row"><span>${exercise.duration}</span><span>Atemübung</span></span>
+      </span>
+    </button>
   `;
 }
 
