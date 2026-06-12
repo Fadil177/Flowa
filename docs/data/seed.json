@@ -6,7 +6,7 @@
     "situations": ["Smalltalk", "Telefonieren", "Fremde Menschen"],
     "anxiety": 6,
     "reminders": "weekly",
-    "onboarded": false
+    "onboarded": true
   },
   "challenges": [
     {

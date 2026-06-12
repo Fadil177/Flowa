@@ -3,7 +3,7 @@ const STATIC_DB_KEY = "flowa_static_db";
 
 const state = {
   view: "dashboard",
-  auth: localStorage.getItem("flowa_auth") === "true",
+  auth: localStorage.getItem("flowa_auth") !== "false",
   data: null,
   selectedChallenge: null,
   modal: null,
@@ -214,7 +214,6 @@ async function staticApi(path, options = {}) {
 
 async function load() {
   state.data = await api("/bootstrap");
-  if (!state.data.profile.onboarded && state.auth) state.view = "onboarding";
   render();
 }
 
